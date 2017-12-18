@@ -20,6 +20,7 @@ namespace Jalkahoitola_thesis.Controllers
             foreach (Recieved_ammount item in items)
             {
                 Recieved_ammount data = new Recieved_ammount();
+                if (item.UnitStock > 0) { 
                 data.ProductId = item.ProductId;
                 data.SaapumiseranId = item.SaapumiseranId;
                 data.VendorName = item.VendorName;
@@ -29,6 +30,7 @@ namespace Jalkahoitola_thesis.Controllers
                 data.UnitStock = item.UnitStock;
                
                 result.Add(data);
+                }
             }
             return result;
         }
