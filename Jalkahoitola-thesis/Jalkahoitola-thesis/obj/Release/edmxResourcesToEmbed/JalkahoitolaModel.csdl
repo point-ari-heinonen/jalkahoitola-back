@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JalkahoitolaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ProductGroup">
+    <Key>
+      <PropertyRef Name="GroupId" />
+    </Key>
+    <Property Name="GroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Products_ProductGroups1" FromRole="ProductGroups" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nmae" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+    <Property Name="Quantity" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="UnitOfMeasure" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="GroupId" Type="Int32" Nullable="false" />
+    <Property Name="Entery_Date" Type="DateTime" Precision="0" />
+    <Property Name="Expire" Type="DateTime" Precision="0" />
+    <Property Name="Person_Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="ProductGroup" Relationship="Self.FK_Products_ProductGroups1" FromRole="Products" ToRole="ProductGroups" />
+    <NavigationProperty Name="Recieved_ammount" Relationship="Self.FK_Recieved_ammount_Products" FromRole="Products" ToRole="Recieved_ammount" />
+  </EntityType>
+  <EntityType Name="Recieved_ammount">
+    <Key>
+      <PropertyRef Name="SaapumiseranId" />
+    </Key>
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="ExpireDate" Type="DateTime" Precision="0" />
+    <Property Name="Price" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="VendorName" Type="String" MaxLength="510" FixedLength="true" Unicode="false" />
+    <Property Name="LocationCode" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Recieved_ammount_Products" FromRole="Recieved_ammount" ToRole="Products" />
+    <Property Name="SaapumiseranId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UnitStock" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_Products_ProductGroups1">
+    <End Role="ProductGroups" Type="Self.ProductGroup" Multiplicity="1" />
+    <End Role="Products" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductGroups">
+        <PropertyRef Name="GroupId" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recieved_ammount_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Recieved_ammount" Type="Self.Recieved_ammount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="Recieved_ammount">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JalkahoitolaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ProductGroups" EntityType="Self.ProductGroup" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Recieved_ammounts" EntityType="Self.Recieved_ammount" />
+    <AssociationSet Name="FK_Products_ProductGroups1" Association="Self.FK_Products_ProductGroups1">
+      <End Role="ProductGroups" EntitySet="ProductGroups" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recieved_ammount_Products" Association="Self.FK_Recieved_ammount_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Recieved_ammount" EntitySet="Recieved_ammounts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

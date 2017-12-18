@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JalkahoitolaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ProductGroups">
+    <Key>
+      <PropertyRef Name="GroupId" />
+    </Key>
+    <Property Name="GroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="char" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nmae" Type="char" MaxLength="100" />
+    <Property Name="Description" Type="nchar" MaxLength="500" />
+    <Property Name="Quantity" Type="nchar" MaxLength="100" />
+    <Property Name="UnitOfMeasure" Type="char" MaxLength="20" />
+    <Property Name="GroupId" Type="int" Nullable="false" />
+    <Property Name="Entery Date" Type="date" />
+    <Property Name="Expire" Type="date" />
+    <Property Name="Person Name" Type="nchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Recieved ammount">
+    <Key>
+      <PropertyRef Name="SaapumiseranId" />
+    </Key>
+    <Property Name="SaapumiseranId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductId" Type="int" />
+    <Property Name="Date" Type="date" />
+    <Property Name="ExpireDate" Type="date" />
+    <Property Name="Price" Type="nchar" MaxLength="100" />
+    <Property Name="VendorName" Type="char" MaxLength="510" />
+    <Property Name="LocationCode" Type="char" MaxLength="100" />
+    <Property Name="UnitStock" Type="int" />
+  </EntityType>
+  <Association Name="FK_Products_ProductGroups1">
+    <End Role="ProductGroups" Type="Self.ProductGroups" Multiplicity="1" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductGroups">
+        <PropertyRef Name="GroupId" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recieved ammount_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="Recieved ammount" Type="Self.Recieved ammount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="Recieved ammount">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JalkahoitolaModelStoreContainer">
+    <EntitySet Name="ProductGroups" EntityType="Self.ProductGroups" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recieved ammount" EntityType="Self.Recieved ammount" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Products_ProductGroups1" Association="Self.FK_Products_ProductGroups1">
+      <End Role="ProductGroups" EntitySet="ProductGroups" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recieved ammount_Products" Association="Self.FK_Recieved ammount_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Recieved ammount" EntitySet="Recieved ammount" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
