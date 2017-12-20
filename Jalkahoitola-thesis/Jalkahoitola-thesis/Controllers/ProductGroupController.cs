@@ -37,8 +37,16 @@ namespace Jalkahoitola_thesis.Controllers
 
             return (result);
         }
-        
 
+        [HttpPost]
+        public ProductGroup Post([FromBody] ProductGroup value)
+        {
+            JalkahoitolaEntities entities = new JalkahoitolaEntities();
+            entities.ProductGroups.Add(value);
+            entities.SaveChanges();
+            entities.Dispose();
+            return value;
+        }
 
 
         /*
