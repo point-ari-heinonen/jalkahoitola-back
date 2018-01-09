@@ -12,14 +12,27 @@ namespace Jalkahoitola_thesis.Controllers
         // GET: api/ReduceProduct
         public IEnumerable<Recieved_ammount> Get(int? SaapumiseranId)
         {
-            //Query entry from entity and update it
+            //Query entry from entity
             JalkahoitolaEntities entities = new JalkahoitolaEntities();
             Recieved_ammount EntryToModify = (from p in entities.Recieved_ammounts
                                        where p.SaapumiseranId == SaapumiseranId
                                        select p).SingleOrDefault();
-            EntryToModify.UnitStock = EntryToModify.UnitStock - 1;
             int? id = EntryToModify.ProductId;
-            entities.SaveChanges();
+            //Take the last one and remove 
+            if (EntryToModify.UnitStock == 1)
+            {
+                EntryToModify.UnitStock = EntryToModify.UnitStock - 1;
+                //EntryToModify = null;
+                entities.Recieved_ammounts.Remove(EntryToModify);
+                entities.SaveChanges();
+            }
+            //If there's more than one, just reduce the amount
+            if (EntryToModify.UnitStock > 1)
+            {
+                EntryToModify.UnitStock = EntryToModify.UnitStock - 1;
+                entities.SaveChanges();
+            }
+            
 
             //Get updated list from db and return it to client
             List<Recieved_ammount> items = (from o in entities.Recieved_ammounts
@@ -44,20 +57,6 @@ namespace Jalkahoitola_thesis.Controllers
             }
             return result;
         }
-
-        // POST: api/ReduceProduct
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/ReduceProduct/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/ReduceProduct/5
-        public void Delete(int id)
-        {
-        }
+        
     }
 }
