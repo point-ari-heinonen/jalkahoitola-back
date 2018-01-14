@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ProductCountController.cs" />
     <Compile Include="Controllers\ReduceProductController.cs" />
     <Compile Include="Controllers\RemoveProductController.cs" />
+    <Compile Include="Controllers\RemoveProductGroupController.cs" />
     <Compile Include="Controllers\ShipmentsForProductController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
